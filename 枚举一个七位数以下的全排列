@@ -1,0 +1,81 @@
+#include<cstdio>
+#include<cstdlib>
+using namespace std;
+int n(0),check[10000],line(0);
+int length(int m)
+{
+   int t,n(0);
+   t = m;
+    while(t!=0)
+    {
+       t=t/10;
+       n++;
+    }
+    return n;
+}
+void countPrint(int *a,int *b,int t,int n)
+{
+    if(t == n)
+    {
+      int book[n],sum(0),s(0),temp(1);                                                      //标记数组和标记和，及排列数
+    for(int j=0;j<n;j++)                                         //初始化标记数组
+       book[j]=0;
+    for(int j=0;j<n;j++)                                         //标记
+    {
+       book[b[j]]++;
+    }
+    for(int j=0;j<n;j++)
+    {
+       if(book[j]==1)
+         sum++;
+    }
+    if(sum==n)
+    {
+        int j=n-1;
+      for( ;j>=0;j--)
+      {
+         s += a[b[j]]*temp;
+         temp *= 10;
+      }
+      int k=0;
+      for( ;k<line;k++)
+      if(check[k]==s)
+        break;
+      if(k==line)
+     {
+         check[line] = s;
+         line++;
+     }
+    }
+    return;
+    }
+   for(int i=0;i<n;i++)
+   {
+    b[t] = i;
+    if(t==0||b[t]!=b[t-1])
+    countPrint(a,b,t+1,n);
+   }
+
+}
+int main()
+{
+    int m,t(1);                                         //m为输入的数，t是中间量用来产生该数各位数，n表示位数
+    scanf("%d",&m);
+    n = length(m);
+    printf("%d\n",n);                                         //获取并输出位数
+
+    int a[n],b[n],c[n];                                       //a[]存各位数，b[]来表示a[]可能的排序组合
+    for(int i=0;i<n;i++)
+    {
+      a[i] = m/t%10;
+      t *= 10;
+    }
+    t = 0;
+    countPrint(a,b,t,n);
+    for(int k=0;k<line;k++)
+        printf("%d\n",check[k]);
+
+
+        system("pause");
+    return 0;
+}
